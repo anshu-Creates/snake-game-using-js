@@ -3,6 +3,8 @@ const blockSize = 50;
 const rows = Math.max(1, Math.floor(playGround.clientHeight / blockSize));
 const cols = Math.max(1, Math.floor(playGround.clientWidth / blockSize));
 const start = document.querySelector("#start");
+const score = document.querySelector("#score");
+const time = document.querySelector("#time");
 
 playGround.style.width = `${cols * blockSize}px`;
 playGround.style.height = `${rows * blockSize}px`;
@@ -26,7 +28,10 @@ let food = {
   x: Math.floor(Math.random() * rows),
   y: Math.floor(Math.random() * cols),
 };
-direction = "right";
+let direction = "right";
+let currentScore = 0;
+let seconds = 0;
+let minutes = 0;
 
 function render() {
   let head = null;
@@ -44,7 +49,11 @@ function render() {
   }
 
   if (head.x < 0 || head.y < 0 || head.x >= rows || head.y >= cols) {
+    seconds = 0;
+    minutes = 0;
+    currentScore = 0;
     clearInterval(interval);
+    clearInterval(timer);
     alert("Game Over");
     return;
   }
@@ -57,6 +66,10 @@ function render() {
     };
     blocks[`${food.x}-${food.y}`].classList.add("food");
     snake.unshift(head);
+
+    currentScore++;
+
+    score.innerText = currentScore;
   }
 
   snake.forEach(function (elem) {
@@ -71,12 +84,18 @@ function render() {
   });
 }
 
-
-
 let interval = setInterval(() => {
-
   render();
 }, 500);
+
+let timer = setInterval(() => {
+  seconds++;
+  if (seconds > 59) {
+    minutes++;
+    seconds = 0;
+  }
+  time.innerHTML = `${minutes} MIN : ${seconds} SEC`;
+}, 1000);
 
 addEventListener("keydown", function (params) {
   if (params.key == "ArrowRight") {
