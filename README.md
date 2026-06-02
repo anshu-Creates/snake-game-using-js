@@ -106,7 +106,7 @@ Feel free to fork this repository and submit a pull request.
 
 ## 👨‍💻 Author
 
-Created by **Anshu Kharwar*
+Created by **Anshu Kharwar**
 
 GitHub: https://github.com/anshu-Creates
 
