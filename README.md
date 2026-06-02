@@ -61,8 +61,6 @@ Snake-Game/
 
 ## 📸 Screenshots
 
-### Gameplay
-
 ![User Interface](images/gameui.png)
 
 
