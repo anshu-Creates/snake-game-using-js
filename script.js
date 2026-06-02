@@ -2,9 +2,9 @@ const playGround = document.querySelector("#playGround");
 const blockSize = 50;
 const rows = Math.max(1, Math.floor(playGround.clientHeight / blockSize));
 const cols = Math.max(1, Math.floor(playGround.clientWidth / blockSize));
-const start = document.querySelector("#start");
 const score = document.querySelector("#score");
 const time = document.querySelector("#time");
+const blocks = [];
 
 playGround.style.width = `${cols * blockSize}px`;
 playGround.style.height = `${rows * blockSize}px`;
@@ -12,26 +12,24 @@ playGround.style.gridTemplateColumns = `repeat(${cols}, ${blockSize}px)`;
 playGround.style.gridAutoRows = `${blockSize}px`;
 playGround.innerHTML = "";
 
-const blocks = [];
-
 for (let i = 0; i < rows; i++) {
   for (let j = 0; j < cols; j++) {
     const block = document.createElement("div");
     block.classList.add("block");
     playGround.appendChild(block);
-    block.innerText = `${i}-${j}`;
     blocks[`${i}-${j}`] = block;
   }
 }
+
 let snake = [{ x: 1, y: 2 }];
-let food = {
-  x: Math.floor(Math.random() * rows),
-  y: Math.floor(Math.random() * cols),
-};
 let direction = "right";
 let currentScore = 0;
 let seconds = 0;
 let minutes = 0;
+let food = {
+  x: Math.floor(Math.random() * rows),
+  y: Math.floor(Math.random() * cols),
+};
 
 function render() {
   let head = null;
@@ -54,7 +52,7 @@ function render() {
     currentScore = 0;
     clearInterval(interval);
     clearInterval(timer);
-    alert("Game Over");
+    alert("Game is Over. Reload for Another Try...!");
     return;
   }
 
@@ -64,6 +62,15 @@ function render() {
       x: Math.floor(Math.random() * rows),
       y: Math.floor(Math.random() * cols),
     };
+    snake.forEach(function (elem) {
+      if (food.x == elem.x && food.y == elem.y) {
+        food = {
+          x: Math.floor(Math.random() * rows),
+          y: Math.floor(Math.random() * cols),
+        };
+      }
+    });
+
     blocks[`${food.x}-${food.y}`].classList.add("food");
     snake.unshift(head);
 
@@ -84,10 +91,6 @@ function render() {
   });
 }
 
-let interval = setInterval(() => {
-  render();
-}, 500);
-
 let timer = setInterval(() => {
   seconds++;
   if (seconds > 59) {
@@ -96,6 +99,10 @@ let timer = setInterval(() => {
   }
   time.innerHTML = `${minutes} MIN : ${seconds} SEC`;
 }, 1000);
+
+let interval = setInterval(() => {
+  render();
+}, 500);
 
 addEventListener("keydown", function (params) {
   if (params.key == "ArrowRight") {

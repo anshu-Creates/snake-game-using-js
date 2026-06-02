@@ -73,23 +73,6 @@ body {
   object-fit: cover;
 }
 
-#start {
-  padding: 10px 20px;
-  margin: 10px;
-  border: 2px solid rgb(233, 229, 229);
-  background-color: rgba(8, 8, 8, 0.997);
-  color: rgb(233, 229, 229);
-  border-radius: 10px;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-#start:hover{
-    background-color: white;
-    color: black;
-    transition: 0.3s;
-}
-
 .fill{
     background-color: white;
 }
